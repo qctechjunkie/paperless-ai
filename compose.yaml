@@ -1,15 +1,22 @@
 services:
-  paperlessngx-ai:
+  paperless-ai:
     image: clusterzx/paperless-ai
-    container_name: PaperlessNGX-AI
-    healthcheck:
-      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/3000' || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 90s
-    volumes:
-      - /volume1/docker/paperlessngxai:/app/data:rw
-    ports:
-      - 3747:3000
+    container_name: ${CONTAINER_NAME:-paperless-ai}
+    network_mode: bridge
     restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges=true
+    env_file:
+      - .env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - PAPERLESS_AI_PORT=${PAPERLESS_AI_PORT:-3000}
+      - RAG_SERVICE_URL=${RAG_SERVICE_URL:-http://localhost:8000}
+      - RAG_SERVICE_ENABLED=${RAG_SERVICE_ENABLED:-true}
+    ports:
+      - "${EXTERNAL_PORT:-3000}:${PAPERLESS_AI_PORT:-3000}"
+    volumes:
+      - ${DATA_PATH:-./data}:/app/data
