@@ -3,6 +3,8 @@ services:
     image: clusterzx/paperless-ai:latest
     container_name: ${CONTAINER_NAME:-paperless-ai}
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
