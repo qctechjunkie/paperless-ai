@@ -21,4 +21,4 @@ services:
     ports:
       - "${PAPERLESS_AI_PORT:-3000}:3000"
     volumes:
-      - ${DATA_PATH:-./data}:/app/data
+      - ${DOCKER_DATA_PATH:-.}/data:/app/data
