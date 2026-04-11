@@ -1,6 +1,6 @@
 services:
   paperless-ai:
-    image: clusterzx/paperless-ai
+    image: clusterzx/paperless-ai:latest
     container_name: ${CONTAINER_NAME:-paperless-ai}
     restart: unless-stopped
     environment:
