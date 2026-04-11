@@ -14,8 +14,8 @@ services:
       # Required to access the setup wizard from a remote browser.
       # Remove this line after completing the initial setup.
       - ALLOW_REMOTE_SETUP=yes
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
+      # - PUID=${PUID:-1000}
+      # - PGID=${PGID:-1000}
       - PAPERLESS_AI_PORT=${PAPERLESS_AI_PORT:-3000}
       - RAG_SERVICE_ENABLED=${RAG_SERVICE_ENABLED:-true}
     ports:
