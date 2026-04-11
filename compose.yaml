@@ -1,8 +1,7 @@
 services:
   paperless-ai:
-    image: clusterzx/paperless-ai
+    image: admonstrator/paperless-ai-next:latest-full
     container_name: ${CONTAINER_NAME:-paperless-ai}
-    network_mode: bridge
     restart: unless-stopped
     cap_drop:
       - ALL
@@ -11,12 +10,15 @@ services:
     env_file:
       - .env
     environment:
+      - PAPERLESS_AI_INITIAL_SETUP=yes
+      # Required to access the setup wizard from a remote browser.
+      # Remove this line after completing the initial setup.
+      - ALLOW_REMOTE_SETUP=yes
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - PAPERLESS_AI_PORT=${PAPERLESS_AI_PORT:-3000}
-      - RAG_SERVICE_URL=${RAG_SERVICE_URL:-http://localhost:8000}
       - RAG_SERVICE_ENABLED=${RAG_SERVICE_ENABLED:-true}
     ports:
-      - "${EXTERNAL_PORT:-3000}:${PAPERLESS_AI_PORT:-3000}"
+      - "${PAPERLESS_AI_PORT:-3000}:3000"
     volumes:
       - ${DATA_PATH:-./data}:/app/data
